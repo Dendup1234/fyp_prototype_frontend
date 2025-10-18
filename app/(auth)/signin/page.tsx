@@ -9,6 +9,8 @@ import Button from "@/components/ui/button";
 import Divider from "@/components/ui/divider";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 
 export default function SignUpPage() {
   const [form, setForm] = useState({
@@ -17,6 +19,8 @@ export default function SignUpPage() {
     email: "",
     password: "",
   });
+  const router = useRouter();
+
 
   return (
     <div className="container mx-auto grid w-full max-w-6xl grid-cols-1 gap-6 md:grid-cols-2">
@@ -47,7 +51,7 @@ export default function SignUpPage() {
         </div>
         
         </div>
-        <p className="mt-8 text-center text-lg font-medium text-white/95">
+        <p className="mt-8 text-center text-lg font-medium text-white/95 font-sans">
           The easiest way to manage students who want to apply abroad.
         </p>
       </Card>
@@ -70,6 +74,7 @@ export default function SignUpPage() {
           action="#"
           onSubmit={(e) => {
             e.preventDefault();
+            router.push("/verification"); 
             alert(JSON.stringify(form, null, 2));
           }}
           className="space-y-4"
