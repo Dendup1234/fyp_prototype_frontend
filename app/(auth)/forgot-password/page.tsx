@@ -6,22 +6,22 @@ import Button from "@/components/ui/button";
 import OtpInput from "@/components/ui/otpinput";
 import router, { useRouter } from "next/navigation";
 
-export default function VerifyPage() {
+export default function ForgotPasswordPage() {
     const [otp, setOtp] = useState("");
     const isComplete = otp.length === 4; // matches OtpInput length
-    const router = useRouter()
+    const route = useRouter();
     const handleVerify = (e: React.FormEvent) => {
         e.preventDefault();
         if (!isComplete) return;
         // TODO: call backend to verify OTP
         alert(`Verifying OTP: ${otp}`);
-        router.push("/signin");
+        route.push("/new-password")
     };
 
     return (
         <section className="min-h-dvh grid place-items-center p-4 bg-[color:var(--background)]">
             <AuthCard
-                title="Verify"
+                title="Forgot Password?"
                 subtitle="Code has been sent to dorji@gmail.com. Enter the code to retrieve your account"
                 bg="#ffffff"
                 footer={
@@ -56,7 +56,7 @@ export default function VerifyPage() {
                                 : "bg-[#6B8FBC] hover:brightness-95",
                         ].join(" ")}
                     >
-                        VERIFY ACCOUNT
+                        CONTINUE
                     </Button>
                 </form>
             </AuthCard>
