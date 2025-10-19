@@ -10,9 +10,10 @@ import Divider from "@/components/ui/divider";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { sendOTP } from "@/utils/api";
 
 
-export default function SignInPage() {
+export default function SignUpPage() {
     const [form, setForm] = useState({
         org: "",
         name: "",
@@ -71,11 +72,27 @@ export default function SignInPage() {
                 }
             >
                 <form
-                    action="#"
-                    onSubmit={(e) => {
+                    onSubmit={async (e) => {
                         e.preventDefault();
-                        router.push("/verification");
-                        alert(JSON.stringify(form, null, 2));
+                        try {
+                            const res = await sendOTP(form.email);     // backend sends OTP
+                            alert(res.message);
+                            // Save what you need for the verify call (TEMPORARY)
+                            sessionStorage.setItem(
+                                "pendingSignup",
+                                JSON.stringify({
+                                    organizationName: form.org,
+                                    name: form.name,
+                                    email: form.email,
+                                    password: form.password,
+                                })
+                            );
+
+                            // You may pass only email via query for UI text (safe-ish)
+                            router.push(`/verification?email=${encodeURIComponent(form.email)}`);
+                        } catch (err) {
+                            alert((err as Error).message);
+                        }
                     }}
                     className="space-y-4"
                 >
