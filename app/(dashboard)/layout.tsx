@@ -1,8 +1,16 @@
+import React from "react";
+import SideMenu from '@/components/ui/sidemenu'
+
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
     return (
-        <section>
-            {children}
-        </section>
+        <div className="flex min-h-screen bg-slate-50">
+            {/* Left: Sidebar */}
+            <SideMenu />
 
+            {/* Right: Page content */}
+            <main className="flex-1 overflow-y-auto px-6 py-8">
+                {children}
+            </main>
+        </div>
     );
 }
