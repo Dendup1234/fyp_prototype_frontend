@@ -6,7 +6,7 @@ import Button from "@/components/ui/button";
 import OtpInput from "@/components/ui/otpinput";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const BASE_URL = "http://192.168.137.1:5000/api/v1/agency"; // adjust your backend IP
+const BASE_URL = "http://10.2.32.92:5000/api/v1/agency"; // adjust your backend IP
 
 export default function ResetVerifyPage() {
     const [otp, setOtp] = useState("");
@@ -34,8 +34,7 @@ export default function ResetVerifyPage() {
             const res = await fetch(`${BASE_URL}/auth/password-reset/verify-otp`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, otp }),
-                credentials: "include", // 👈 important
+                body: JSON.stringify({ email, otp })
             });
 
             const data = await res.json();

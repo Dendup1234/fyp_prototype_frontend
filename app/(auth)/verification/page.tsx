@@ -9,6 +9,7 @@ import { verifyOTP } from "@/utils/api";
 
 export default function VerifyPage() {
     const [otp, setOtp] = useState("");
+    //Prevents multiple submissions while waiting for a backend response.
     const [loading, setLoading] = useState(false);
     const isComplete = otp.length === 4;
     const router = useRouter();
@@ -35,7 +36,6 @@ export default function VerifyPage() {
     const handleVerify = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!isComplete || !payload) return;
-
         setLoading(true);
         try {
             const res = await verifyOTP({
