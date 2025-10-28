@@ -1,6 +1,5 @@
 import React from 'react'
 import Navbar from '@/components/ui/navbar'
-import SideMenu from '@/components/ui/sidemenu'
 import StatusSummary from '@/components/ui/status-summary'
 import DashboardTabs from '@/components/ui/dashboard-tabs'
 import DashboardSearch from '@/components/ui/dashboard-search'
