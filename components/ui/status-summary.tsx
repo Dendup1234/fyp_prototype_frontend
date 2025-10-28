@@ -50,11 +50,11 @@ type StatusSummaryProps = {
 
 const StatusSummary: React.FC<StatusSummaryProps> = ({ items = cards }) => {
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-4 md:flex-nowrap md:justify-between">
       {items.map((card) => (
         <div
           key={card.label}
-          className="flex h-[185px] w-full max-w-[200px] flex-col justify-between rounded-[24px] p-6"
+          className="flex h-[185px] w-full max-w-[200px] flex-col justify-between rounded-[24px] p-6 md:w-[200px]"
           style={{ backgroundColor: card.background }}
         >
           <span

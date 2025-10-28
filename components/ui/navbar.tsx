@@ -7,7 +7,7 @@ type NavbarProps = {
 
 const Navbar: React.FC<NavbarProps> = ({ userName, initials }) => {
   return (
-    <header className="flex h-16 items-center justify-end gap-6 border-b border-[#d4dce6] bg-[#E6EAEB] px-10 text-[#555c6a]">
+    <header className="flex h-16 items-center justify-end gap-6 bg-[#F7FBFC] px-10 text-[#555c6a] shadow-sm shadow-[#A7C2DF]/40">
       <button
         type="button"
         className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#555c6a] shadow-sm"

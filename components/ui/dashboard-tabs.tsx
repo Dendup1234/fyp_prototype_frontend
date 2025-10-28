@@ -19,17 +19,13 @@ const DashboardTabs = () => {
           <button
             key={label}
             type="button"
-            className={`flex flex-col items-center pb-2 text-[16px] font-normal transition-colors ${
-              isActive ? 'text-[#1F1F1F]' : 'text-[#9CA3AF]'
+            className={`flex items-center pb-3 text-[16px] font-normal transition-colors border-b-2 ${
+              isActive
+                ? 'border-[var(--primarycolor)] text-[#1F1F1F]'
+                : 'border-transparent text-[#9CA3AF] hover:border-[#D5DDE5] hover:text-[#555C6A]'
             }`}
           >
-            <span>{label}</span>
-            <span
-              className="mt-2 h-[3px] w-full rounded-full"
-              style={{
-                backgroundColor: isActive ? 'var(--primarycolor)' : 'transparent',
-              }}
-            />
+            {label}
           </button>
         )
       })}
