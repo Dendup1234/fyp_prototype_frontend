@@ -6,7 +6,7 @@ import Button from "@/components/ui/button";
 import OtpInput from "@/components/ui/otpinput";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const BASE_URL = "http://10.2.32.92:5000/api/v1/agency"; // adjust your backend IP
+const BASE_URL = "http://10.2.23.225:5000/api/v1/agency"; // adjust your backend IP
 
 export default function ResetVerifyPage() {
     const [otp, setOtp] = useState("");
@@ -19,9 +19,7 @@ export default function ResetVerifyPage() {
     // Prefer email from sessionStorage or fallback to query param
     const email = useMemo(() => {
         const fromSession =
-            typeof window !== "undefined"
-                ? sessionStorage.getItem("resetEmail")
-                : null;
+            typeof window !== "undefined" ? sessionStorage.getItem("resetEmail") : null;
         return fromSession || params.get("email") || "";
     }, [params]);
 
@@ -34,23 +32,29 @@ export default function ResetVerifyPage() {
             const res = await fetch(`${BASE_URL}/auth/password-reset/verify-otp`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, otp })
+                body: JSON.stringify({ email, otp }),
             });
 
             const data = await res.json();
-            console.log("Server response:", data);
 
-            // 👇 Add this here
-            console.log("Cookies in browser:", document.cookie);
-
-            if (res.ok) {
-                alert("OTP verified successfully!");
-                router.push("/new-password");
-            } else {
-                alert(data.message || "Failed to verify OTP");
+            if (!res.ok) {
+                throw new Error(data?.message || "Failed to verify OTP");
             }
+
+            const token = (data?.resetSessionToken || "").trim();
+            if (!token) {
+                throw new Error("Server did not return resetSessionToken");
+            }
+
+            // Save for same-tab flow (fallback)
+            if (typeof window !== "undefined") {
+                sessionStorage.setItem("resetSessionToken", token);
+            }
+
+            // Push token via URL so the next page can fetch it reliably
+            router.push(`/new-password?token=${encodeURIComponent(token)}`);
         } catch (err: any) {
-            alert(err.message || "An error occurred during verification");
+            alert(err?.message || "An error occurred during verification");
         } finally {
             setLoading(false);
         }
@@ -64,8 +68,7 @@ export default function ResetVerifyPage() {
                 bg="#ffffff"
                 footer={
                     <p className="text-center text-xs text-black">
-                        By continuing, you agree to our{" "}
-                        <span className="underline">Terms of Service</span> and{" "}
+                        By continuing, you agree to our <span className="underline">Terms of Service</span> and{" "}
                         <span className="underline">Privacy Policy</span>.
                     </p>
                 }
@@ -74,8 +77,7 @@ export default function ResetVerifyPage() {
                     <OtpInput length={4} onChange={setOtp} onComplete={setOtp} />
 
                     <p className="text-center text-sm text-black">
-                        Didn’t receive a code?{" "}
-                        <span className="underline cursor-pointer">Resend Code</span>
+                        Didn’t receive a code? <span className="underline cursor-pointer">Resend Code</span>
                         <br />
                         <span className="text-xs">Resend code in 00:59</span>
                     </p>

@@ -1,15 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import AuthCard from "@/components/authcard";
 import PasswordInput from "@/components/ui/passwordinput";
 import Button from "@/components/ui/button";
 import Divider from "@/components/ui/divider";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-
-// Put your API base URL here or use an env var
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://192.168.137.1:5000/api/v1/agency";
+import { setNewPassword } from "@/utils/api";
 
 export default function NewPasswordPage() {
     const [form, setForm] = useState({ password1: "", password2: "" });
@@ -20,19 +18,32 @@ export default function NewPasswordPage() {
 
     // Prefer token from query (?token=...) then sessionStorage
     const resetToken = useMemo(() => {
-        const fromQuery = params.get("token");
+        const fromQuery = params.get("token")?.trim() || "";
         if (fromQuery) return fromQuery;
         if (typeof window !== "undefined") {
-            return sessionStorage.getItem("resetSessionToken") || "";
+            return (sessionStorage.getItem("resetSessionToken") || "").trim();
         }
         return "";
     }, [params]);
+
+    // If token arrived via URL, persist it so refresh still works
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const fromQuery = params.get("token")?.trim();
+            if (fromQuery) {
+                sessionStorage.setItem("resetSessionToken", fromQuery);
+            }
+        }
+    }, [params]);
+
+    const passwordsMatch = form.password1 === form.password2;
+    const passMinLen = form.password1.length >= 8;
+    const canSubmit = !!resetToken && passMinLen && passwordsMatch && !loading;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setErr(null);
 
-        // Basic validations
         if (!resetToken) {
             setErr("Missing reset session token. Please restart the reset flow.");
             return;
@@ -41,32 +52,21 @@ export default function NewPasswordPage() {
             setErr("Please enter and confirm your new password.");
             return;
         }
-        if (form.password1 !== form.password2) {
+        if (!passwordsMatch) {
             setErr("Passwords do not match.");
             return;
         }
-        if (form.password1.length < 8) {
+        if (!passMinLen) {
             setErr("Password must be at least 8 characters.");
             return;
         }
 
         setLoading(true);
         try {
-            // If your backend route is /auth/password-reset/set-new-password, change the path below
-            const res = await fetch(`${BASE_URL}/auth/password-reset`, {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include", // send cookie automatically
-                body: JSON.stringify({ newPassword: form.password1 })
+            const data = await setNewPassword({
+                resetSessionToken: resetToken,
+                newPassword: form.password1,
             });
-            const text = await res.text();
-            console.log(document.cookie)
-            let data: any = {};
-            try { data = text ? JSON.parse(text) : {}; } catch {/* non-JSON fallback */ }
-
-            if (!res.ok) {
-                throw new Error(data?.message || `Failed to reset password (${res.status})`);
-            }
 
             alert(data?.message || "Password has been reset.");
 
@@ -99,6 +99,14 @@ export default function NewPasswordPage() {
                 }
             >
                 <form onSubmit={handleSubmit} className="space-y-8">
+                    {/* Token warning if missing */}
+                    {!resetToken && (
+                        <p className="text-xs rounded-md bg-yellow-100 border border-yellow-300 p-2 text-yellow-900">
+                            Missing reset token. Make sure you came from the “Verify OTP” step
+                            and that it redirected you with <code>?token=...</code>.
+                        </p>
+                    )}
+
                     <PasswordInput
                         placeholder="Create New Password"
                         value={form.password1}
@@ -114,7 +122,8 @@ export default function NewPasswordPage() {
                     {err && <p className="text-sm text-red-600">{err}</p>}
 
                     <Divider />
-                    <Button type="submit" className="mt-7" disabled={loading} loading={loading}>
+
+                    <Button type="submit" className="mt-7" disabled={!canSubmit} loading={loading}>
                         {loading ? "Saving..." : "CONTINUE"}
                     </Button>
                 </form>

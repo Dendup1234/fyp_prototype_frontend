@@ -1,4 +1,4 @@
-const BASE_URL = "http://10.107.128.130:5000/api/v1/agency"; // replace with your backend IP
+const BASE_URL = "http://10.2.23.225:5000/api/v1/agency"; // replace with your backend IP
 
 //Send OTP
 export const sendOTP = async (email) => {
@@ -88,14 +88,14 @@ const handleVerify = async () => {
   }
 };
 
-// Set new password
-export const setNewPassword = async (resetSessionToken, newPassword) => {
+export async function setNewPassword(payload) {
   const res = await fetch(`${BASE_URL}/auth/password-reset`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ resetSessionToken, newPassword }),
+    body: JSON.stringify(payload), // Make sure payload has resetSessionToken + newPassword
   });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message || "Failed to reset password");
+
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data?.message || `Failed (${res.status})`);
   return data;
-};
+}

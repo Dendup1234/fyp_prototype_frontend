@@ -5,33 +5,47 @@ import AuthCard from "@/components/authcard";
 import Button from "@/components/ui/button";
 import OtpInput from "@/components/ui/otpinput";
 import { useRouter, useSearchParams } from "next/navigation";
-import { verifyOTP } from "@/utils/api";
+import { verifyOTP, resendOTP } from "@/utils/api";
 
 export default function VerifyPage() {
     const [otp, setOtp] = useState("");
-    //Prevents multiple submissions while waiting for a backend response.
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);          // for verify
+    const [resending, setResending] = useState(false);      // for resend
+    const [cooldown, setCooldown] = useState(0);            // seconds remaining
     const isComplete = otp.length === 4;
+
     const router = useRouter();
     const params = useSearchParams();
 
-    // For showing in the subtitle
+    // Shown in subtitle (query param if present)
     const emailFromQuery = params.get("email") ?? "";
 
     // Load the payload saved from signup
     const payload = useMemo(() => {
         const raw = sessionStorage.getItem("pendingSignup");
         try {
-            return raw ? JSON.parse(raw) as {
-                organizationName: string;
-                name: string;
-                email: string;
-                password: string;
-            } : null;
+            return raw
+                ? (JSON.parse(raw) as {
+                    organizationName: string;
+                    name: string;
+                    email: string;
+                    password: string;
+                })
+                : null;
         } catch {
             return null;
         }
     }, []);
+
+    // Decide which email to use for resend
+    const emailToUse = payload?.email || emailFromQuery;
+
+    // Cooldown countdown
+    useEffect(() => {
+        if (cooldown <= 0) return;
+        const id = setInterval(() => setCooldown((s) => s - 1), 1000);
+        return () => clearInterval(id);
+    }, [cooldown]);
 
     const handleVerify = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -45,15 +59,26 @@ export default function VerifyPage() {
                 otp,
             });
             alert(res.message);
-
-            // clear sensitive data ASAP
-            sessionStorage.removeItem("pendingSignup");
-
+            sessionStorage.removeItem("pendingSignup"); // clear sensitive data
             router.push("/signin");
         } catch (err) {
             alert(err instanceof Error ? err.message : "Verification failed");
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleResend = async () => {
+        if (!emailToUse || cooldown > 0) return;
+        setResending(true);
+        try {
+            const res = await resendOTP(emailToUse);
+            alert(res.message || "OTP resent");
+            setCooldown(60); // start 60s cooldown
+        } catch (err) {
+            alert(err instanceof Error ? err.message : "Failed to resend OTP");
+        } finally {
+            setResending(false);
         }
     };
 
@@ -73,11 +98,23 @@ export default function VerifyPage() {
                 <form onSubmit={handleVerify} className="space-y-6">
                     <OtpInput length={4} onChange={setOtp} onComplete={setOtp} />
 
-                    <p className="text-center text-sm text-black">
-                        Didn’t receive a code? <span className="underline cursor-pointer">Resend Code</span>
+                    <div className="text-center text-sm text-black">
+                        <button
+                            type="button"
+                            onClick={handleResend}
+                            disabled={!emailToUse || resending || cooldown > 0}
+                            className={[
+                                "underline",
+                                (!emailToUse || resending || cooldown > 0) ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
+                            ].join(" ")}
+                        >
+                            {resending ? "Sending..." : "Resend Code"}
+                        </button>
                         <br />
-                        <span className="text-xs">Resend code in 00:59</span>
-                    </p>
+                        <span className="text-xs">
+                            {cooldown > 0 ? `Resend code in 00:${String(cooldown).padStart(2, "0")}` : "You can request a new code now"}
+                        </span>
+                    </div>
 
                     <Button
                         type="submit"
