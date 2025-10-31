@@ -3,6 +3,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 export type MenuItem = {
@@ -86,25 +87,19 @@ const SideMenu: React.FC<SideMenuProps> = ({ items = defaultMenuItems }) => {
 
   return (
     <aside className="flex w-64 flex-col gap-10 bg-white px-6 py-8 shadow-2xl">
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-blue-500">
-          <svg
-            className="h-6 w-6"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={1.5}
-          >
-            <path d="M6 9a6 6 0 0 1 12 0v4a3 3 0 0 0 3 3" />
-            <path d="M6 9a6 6 0 0 0-3 5.196V17a2 2 0 0 0 2 2h2" />
-            <path d="M18 9a6 6 0 0 1 3 5.196V17a 2 2 0 0 1-2 2h-2" />
-            <path d="M8 21a4 4 0 0 1 8 0" />
-          </svg>
-        </div>
-        <div className="text-lg font-semibold tracking-wide text-slate-800">
-          GLoBaL
-        </div>
-      </div>
+      <Link href="/" className="flex items-center gap-3">
+        <Image
+          src="/images/agentzee-logo.png"
+          alt="Super Agent logo"
+          width={120}
+          height={36}
+          className="h-9 w-auto object-contain"
+          priority
+        />
+        <span className="text-lg font-semibold tracking-wide text-slate-800">
+          Super Agent
+        </span>
+      </Link>
 
       <nav className="flex flex-col gap-3" aria-label="Sidebar">
         {items.map((item) => {

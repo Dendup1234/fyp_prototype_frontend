@@ -4,22 +4,22 @@ import Image from 'next/image'
 const pipelineStages = [
   {
     title: 'Intent captured',
-    description: 'Students tell us their goals, budget, and intake in one quick form.',
+    description: 'Students share goals, budgets, and preferred intakes in a single form.',
     status: '23 new',
   },
   {
     title: 'Counselor assigned',
-    description: 'Routing instantly connects each lead to the right destination expert.',
-    status: '12 waiting',
+    description: 'Automations match each lead to the right destination expert instantly.',
+    status: '12 pending',
   },
   {
-    title: 'Applications moving',
-    description: 'Task lists show what academics, visa, and finance teams tackle next.',
+    title: 'Applications in flight',
+    description: 'Shared task lists keep academics, visa, and finance teams aligned.',
     status: '18 active',
   },
   {
     title: 'Visa & onboarding',
-    description: 'Watch deposits, CAS, visa slots, and arrival prep in real time.',
+    description: 'Track deposits, CAS, visa slots, and arrival tasks in real time.',
     status: '95% visas',
   },
 ]
@@ -28,25 +28,25 @@ const capabilityColumns = [
   {
     title: 'Demand engine',
     items: [
-      'See student intent and readiness before outreach.',
-      'Auto-route leads to the counselor best fit for them.',
-      'One profile with goals, history, and docs.',
+      'Verified student intent and readiness scores before first contact.',
+      'Destination routing that sends students to the right counselor instantly.',
+      'Rich dossiers with academic history, goals, and documentation status.',
     ],
   },
   {
     title: 'Counselor cockpit',
     items: [
-      'Chat, tasks, and document requests in one board.',
-      'Milestones show offers, deposits, and visas at a glance.',
-      'Hand over context smoothly to specialists and partners.',
+      'Unified workspace for chat, tasks, document requests, and reminders.',
+      'Offer, deposit, and visa milestones tracked in one clean timeline.',
+      'Context handover for specialists, finance teams, and partner universities.',
     ],
   },
   {
     title: 'Business control',
     items: [
-      'Dashboards by region, intake, and counselor.',
-      'Track commissions alongside offers and invoices.',
-      'Every change and file is audit-ready.',
+      'Performance dashboards across geographies, intakes, and teams.',
+      'Commission insights tied to offers, invoices, and paid deposits.',
+      'Audit-ready history of every document, update, and approval.',
     ],
   },
 ]
@@ -54,28 +54,28 @@ const capabilityColumns = [
 const automationHighlights = [
   {
     label: 'Smart nudges',
-    description: 'Automatic reminders keep students on top of tasks and uploads.',
+    description: 'Automated reminders keep students submitting tasks and documents on time.',
   },
   {
     label: 'Compliance guardrails',
-    description: 'Visa dates, expiring docs, and approvals pop up before they cause delays.',
+    description: 'Expiring documents, visa deadlines, and approvals surface before they slip.',
   },
   {
     label: 'Partner analytics',
-    description: 'Spot the intakes, schools, and counselors that convert best.',
+    description: 'See which intakes, universities, and counselors convert fastest.',
   },
 ]
 
 const metrics = [
-  { value: '40%', label: 'Pipeline now driven by Super Agent' },
-  { value: '2x', label: 'Faster from offer to visa' },
-  { value: '93%', label: 'Average student satisfaction' },
+  { value: '40%', label: 'Pipeline driven by Super Agent partners' },
+  { value: '2x', label: 'Faster offer-to-visa turnaround' },
+  { value: '93%', label: 'Average student satisfaction score' },
 ]
 
 const testimonials = [
   {
     quote:
-      '“Super Agent is now our digital front door. Leads arrive qualified, counselors work from one board, and leadership finally sees the full funnel.”',
+      '“Super Agent became our digital front door. Leads arrive qualified, counselors work from one board, and our leadership finally sees the full funnel.”',
     name: 'Arun Patel',
     title: 'Lead Counselor, EduBridge Alliance',
   },
@@ -87,7 +87,7 @@ const testimonials = [
   },
 ]
 
-const HomePage = () => {
+const LandingPage = () => {
   return (
     <div className="min-h-screen bg-[#F7FBFC] text-slate-900">
       <header className="border-b border-[#B9D7EA] bg-white/80 backdrop-blur">
@@ -139,11 +139,11 @@ const HomePage = () => {
                 Agency growth engine
               </span>
               <h1 className="text-4xl font-semibold leading-tight text-slate-900 md:text-5xl">
-                Grow your study abroad agency with clarity and momentum
+                Direct qualified students, orchestrate delivery, and keep leadership aligned
               </h1>
               <p className="max-w-xl text-base text-slate-600">
-                Super Agent brings student leads, counselor workflows, and performance metrics into one workspace built for
-                teams who want to scale without chaos.
+                Super Agent blends student acquisition, counselor workflows, and reporting into one workspace built for growing
+                agencies.
               </p>
               <div className="flex flex-col gap-3 pt-2 sm:flex-row">
                 <Link
@@ -206,15 +206,16 @@ const HomePage = () => {
 
         <section id="pipeline" className="mt-24 bg-white">
           <div className="mx-auto max-w-6xl px-6 py-16">
-              <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-                <div className="max-w-xl space-y-3">
-                  <h2 className="text-3xl font-semibold text-slate-900 md:text-4xl">Match, manage, and move students forward</h2>
-                  <p className="text-sm text-slate-600">Follow every step from first inquiry to arrival in one shared view.</p>
-                </div>
-                <div className="rounded-2xl border border-[#B9D7EA] bg-[#F7FBFC] px-4 py-3 text-xs text-[#769FCD]">
-                  <span className="font-semibold text-slate-900">Snapshot:</span> Canada Fall 2025 · Conversions up 22%
-                </div>
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div className="max-w-xl space-y-3">
+                <h2 className="text-3xl font-semibold text-slate-900 md:text-4xl">Match, manage, and move students forward</h2>
+                <p className="text-sm text-slate-600">Follow the journey from first inquiry to arrival with one shared view.</p>
               </div>
+              <div className="rounded-2xl border border-[#B9D7EA] bg-[#F7FBFC] px-4 py-3 text-xs text-[#769FCD]">
+                <span className="font-semibold text-slate-900">Live insight:</span> Top-performing intake · Canada Fall 2025 ·
+                Offer conversions up 22%
+              </div>
+            </div>
             <div className="mt-12 grid gap-6 md:grid-cols-3" id="capabilities">
               {capabilityColumns.map((column) => (
                 <div key={column.title} className="flex flex-col rounded-2xl border border-[#B9D7EA] bg-[#F7FBFC] p-6 shadow-sm">
@@ -307,56 +308,6 @@ const HomePage = () => {
                     <p className="font-semibold text-slate-900">{testimonial.name}</p>
                     <p>{testimonial.title}</p>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="pricing" className="bg-white">
-          <div className="mx-auto max-w-6xl px-6 py-16">
-            <div className="text-center">
-              <p className="text-xs font-semibold uppercase tracking-wide text-[#769FCD]">Pricing</p>
-              <h3 className="mt-3 text-3xl font-semibold text-slate-900 md:text-4xl">Choose a plan that fits your agency</h3>
-              <p className="mt-3 text-sm text-slate-600">
-                Simple tiers with the tools you need today and room to grow tomorrow.
-              </p>
-            </div>
-            <div className="mt-12 grid gap-6 md:grid-cols-3">
-              {pricingPlans.map((plan) => (
-                <div
-                  key={plan.name}
-                  className={`flex flex-col rounded-3xl border border-[#B9D7EA] bg-[#F7FBFC] p-6 shadow-sm ${
-                    plan.popular ? 'ring-2 ring-[#769FCD]' : ''
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <p className="text-lg font-semibold text-slate-900">{plan.name}</p>
-                    {plan.popular && (
-                      <span className="rounded-full bg-[#769FCD]/15 px-3 py-1 text-xs font-semibold text-[#769FCD]">
-                        Most popular
-                      </span>
-                    )}
-                  </div>
-                  <p className="mt-4 text-sm text-slate-600">{plan.highlight}</p>
-                  <div className="mt-6">
-                    <span className="text-3xl font-semibold text-slate-900">{plan.price}</span>
-                    {plan.cadence && <span className="ml-2 text-xs text-slate-500">{plan.cadence}</span>}
-                  </div>
-                  <ul className="mt-6 flex-1 space-y-3 text-sm text-slate-600">
-                    {plan.perks.map((perk) => (
-                      <li key={perk} className="flex items-start gap-2">
-                        <span className="text-[#769FCD]">•</span>
-                        <span>{perk}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Link
-                    href="/signin?mode=register"
-                    className="mt-8 inline-flex items-center justify-center rounded-full bg-[#769FCD] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#769FCD]/90"
-                  >
-                    Talk to sales
-                  </Link>
                 </div>
               ))}
             </div>
@@ -467,42 +418,4 @@ const HomePage = () => {
   )
 }
 
-export default HomePage
-const pricingPlans = [
-  {
-    name: 'Starter',
-    price: '$249',
-    cadence: 'per month',
-    highlight: 'Best for agencies kicking off automation.',
-    perks: [
-      'Up to 5 counselor seats',
-      'Lead routing & smart nudges',
-      'Core reporting dashboard',
-    ],
-  },
-  {
-    name: 'Growth',
-    price: '$499',
-    cadence: 'per month',
-    highlight: 'For teams scaling across destinations.',
-    perks: [
-      'Up to 15 counselor seats',
-      'Advanced automations & workflows',
-      'Commission & revenue tracking',
-      'Priority support',
-    ],
-    popular: true,
-  },
-  {
-    name: 'Enterprise',
-    price: 'Let’s talk',
-    cadence: '',
-    highlight: 'Tailored rollout for global agency networks.',
-    perks: [
-      'Unlimited seats and teams',
-      'Custom integrations & SLAs',
-      'Dedicated success manager',
-      'Compliance & audit workspace',
-    ],
-  },
-]
+export default LandingPage
