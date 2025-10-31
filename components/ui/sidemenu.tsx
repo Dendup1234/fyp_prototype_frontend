@@ -96,9 +96,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ items = defaultMenuItems }) => {
           className="h-9 w-auto object-contain"
           priority
         />
-        <span className="text-lg font-semibold tracking-wide text-slate-800">
-          Super Agent
-        </span>
+        
       </Link>
 
       <nav className="flex flex-col gap-3" aria-label="Sidebar">

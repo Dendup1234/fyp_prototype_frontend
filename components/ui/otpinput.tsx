@@ -95,8 +95,8 @@ export default function OtpInput({
                     onPaste={(e) => onPaste(e, i)}
                     className={[
                         "w-14 h-14 rounded-xl text-center text-xl font-semibold",
-                        "border border-black/10 bg-white text-black",
-                        "outline-none focus:ring-4 focus:ring-black/5",
+                        "border border-[#B9D7EA] bg-[#F7FBFC] text-[#769FCD]",
+                        "outline-none focus:ring-4 focus:ring-[#769FCD]/30",
                     ].join(" ")}
                 />
             ))}

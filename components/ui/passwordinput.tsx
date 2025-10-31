@@ -16,11 +16,11 @@ export default function PasswordInput({ label, hint, className = "", ...props }:
                     {...props}
                     type={show ? "text" : "password"}
                     className={[
-                        "w-full rounded-xl border border-black/10 bg-white",
+                        "w-full rounded-xl border border-[#B9D7EA] bg-[#FFFFFF]",
                         "px-4 py-3 pr-11 outline-none",
-                        "focus:ring-4 focus:ring-black/5",
-                        "text-black",
-                        "placeholder-black",
+                        "focus:ring-4 focus:ring-[#769FCD]/30",
+                        "text-[#000000]",
+                        "placeholder:text-slate-300",
                         className,
                     ].join(" ")}
                 />

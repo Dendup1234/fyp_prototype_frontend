@@ -394,7 +394,7 @@ const LandingPage = () => {
             <ul className="mt-3 space-y-2">
               <li>
                 <a href="mailto:hello@superagent.com" className="transition hover:text-[#769FCD]">
-                  hello@superagent.com
+                  hello@agentzee.com
                 </a>
               </li>
               <li>
@@ -411,7 +411,7 @@ const LandingPage = () => {
           </div>
         </div>
         <p className="border-t border-[#B9D7EA] py-6 text-center text-xs text-slate-500">
-          © {new Date().getFullYear()} Super Agent. All rights reserved.
+          © {new Date().getFullYear()} Agentzee. All rights reserved.
         </p>
       </footer>
     </div>

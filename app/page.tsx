@@ -393,7 +393,13 @@ const HomePage = () => {
       <footer className="border-t border-[#B9D7EA] bg-white">
         <div className="mx-auto grid max-w-6xl gap-8 px-6 py-12 text-sm text-slate-600 md:grid-cols-4">
           <div>
-            <p className="text-lg font-semibold text-slate-900">Super Agent</p>
+            <Image
+              src="/images/agentzee-logo.png"
+              alt="Super Agent logo"
+              width={140}
+              height={40}
+              className="h-10 w-auto object-contain"
+            />
             <p className="mt-3 text-xs text-slate-500">
               The operating system for global study abroad agencies. Built by former counselors, scaled with leading partners.
             </p>
