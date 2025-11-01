@@ -3,50 +3,50 @@ import Image from 'next/image'
 
 const pipelineStages = [
   {
-    title: 'Intent captured',
-    description: 'Students tell us their goals, budget, and intake in one quick form.',
+    title: 'Register & build profiles',
+    description: 'Agencies and mentors launch branded profiles with roles, services, and availability.',
     status: '23 new',
   },
   {
-    title: 'Counselor assigned',
-    description: 'Routing instantly connects each lead to the right destination expert.',
+    title: 'Capture leads & assign experts',
+    description: 'Central inbox routes each enquiry to admission or visa officers and mentors in seconds.',
     status: '12 waiting',
   },
   {
-    title: 'Applications moving',
-    description: 'Task lists show what academics, visa, and finance teams tackle next.',
+    title: 'Review docs & plan events',
+    description: 'Smart checklists speed up document review, while event tools promote fairs and webinars.',
     status: '18 active',
   },
   {
-    title: 'Visa & onboarding',
-    description: 'Watch deposits, CAS, visa slots, and arrival prep in real time.',
+    title: 'Guide & track outcomes',
+    description: 'Messaging, notifications, and partnership dashboards keep every case moving to visa approval.',
     status: '95% visas',
   },
 ]
 
 const capabilityColumns = [
   {
-    title: 'Demand engine',
+    title: 'Agency control centre',
     items: [
-      'See student intent and readiness before outreach.',
-      'Auto-route leads to the counselor best fit for them.',
-      'One profile with goals, history, and docs.',
+      'Lead management with ownership, stages, and follow-up reminders.',
+      'Document review workspace with notes, tasks, and approvals.',
+      'Event management tools for fairs, webinars, and campus visits.',
     ],
   },
   {
-    title: 'Counselor cockpit',
+    title: 'Mentor workspace',
     items: [
-      'Chat, tasks, and document requests in one board.',
-      'Milestones show offers, deposits, and visas at a glance.',
-      'Hand over context smoothly to specialists and partners.',
+      'Mentor registration with availability, expertise, and intro videos.',
+      'Scheduling for 1:1 or group sessions synced with agency teams.',
+      'In-app messaging to share action plans and follow-up resources.',
     ],
   },
   {
-    title: 'Business control',
+    title: 'Partnership & insight hub',
     items: [
-      'Dashboards by region, intake, and counselor.',
-      'Track commissions alongside offers and invoices.',
-      'Every change and file is audit-ready.',
+      'Track university partners, quotas, and agreement renewals.',
+      'Multichannel notifications covering email, SMS, and WhatsApp.',
+      'Dashboards for visa success, revenue, and mentor impact by intake.',
     ],
   },
 ]
@@ -54,15 +54,15 @@ const capabilityColumns = [
 const automationHighlights = [
   {
     label: 'Smart nudges',
-    description: 'Automatic reminders keep students on top of tasks and uploads.',
+    description: 'Automatic reminders keep students and mentors on top of tasks, meetings, and uploads.',
   },
   {
-    label: 'Compliance guardrails',
-    description: 'Visa dates, expiring docs, and approvals pop up before they cause delays.',
+    label: 'Unified messaging',
+    description: 'Send updates across email, SMS, and in-app chat without leaving the workspace.',
   },
   {
-    label: 'Partner analytics',
-    description: 'Spot the intakes, schools, and counselors that convert best.',
+    label: 'Partnership analytics',
+    description: 'Spot high-converting universities, events, and mentor sessions to double down.',
   },
 ]
 
@@ -104,7 +104,7 @@ const HomePage = () => {
           </Link>
           <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex">
             <a href="#pipeline" className="transition hover:text-[#769FCD]">
-              Operations view
+              How it works
             </a>
             <a href="#capabilities" className="transition hover:text-[#769FCD]">
               Platform
@@ -142,8 +142,8 @@ const HomePage = () => {
                 Grow your study abroad agency with clarity and momentum
               </h1>
               <p className="max-w-xl text-base text-slate-600">
-                Super Agent brings student leads, counselor workflows, and performance metrics into one workspace built for
-                teams who want to scale without chaos.
+                Super Agent aligns agency admission and visa officers with trusted mentors. Capture enquiries, review documents,
+                host events, and deliver guided mentorship from one shared platform.
               </p>
               <div className="flex flex-col gap-3 pt-2 sm:flex-row">
                 <Link
@@ -233,6 +233,41 @@ const HomePage = () => {
           </div>
         </section>
 
+        <section id="audiences" className="border-y border-[#B9D7EA] bg-[#F7FBFC]">
+          <div className="mx-auto grid max-w-6xl gap-8 px-6 py-16 md:grid-cols-2">
+            <div className="rounded-3xl border border-[#B9D7EA] bg-white p-8 shadow-sm">
+              <span className="text-xs font-semibold uppercase tracking-wide text-[#769FCD]">For agencies</span>
+              <h3 className="mt-3 text-2xl font-semibold text-slate-900">Visa & admissions teams in one workspace</h3>
+              <p className="mt-3 text-sm text-slate-600">
+                Manage every student journey across lead generation, document reviewing, events, and university partnerships.
+              </p>
+              <ul className="mt-6 space-y-3 text-sm text-slate-600">
+                {agencyFeatures.map((feature) => (
+                  <li key={feature} className="flex items-start gap-2">
+                    <span className="text-[#769FCD]">•</span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-3xl border border-[#B9D7EA] bg-white p-8 shadow-sm">
+              <span className="text-xs font-semibold uppercase tracking-wide text-[#769FCD]">For mentors</span>
+              <h3 className="mt-3 text-2xl font-semibold text-slate-900">Guidance that stays aligned with agency plans</h3>
+              <p className="mt-3 text-sm text-slate-600">
+                Onboard mentors, share case context, and keep sessions and follow-ups coordinated with agency teams.
+              </p>
+              <ul className="mt-6 space-y-3 text-sm text-slate-600">
+                {mentorFeatures.map((feature) => (
+                  <li key={feature} className="flex items-start gap-2">
+                    <span className="text-[#769FCD]">•</span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
         <section id="automation" className="bg-gradient-to-b from-white via-[#F7FBFC] to-white">
           <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-[1fr,1.1fr] md:items-center">
             <div>
@@ -249,31 +284,7 @@ const HomePage = () => {
                 ))}
               </div>
             </div>
-            <div className="rounded-3xl border border-[#B9D7EA] bg-white p-6 shadow-[0_30px_80px_-50px_rgba(118,159,205,0.7)]">
-              <p className="text-xs font-semibold uppercase tracking-wide text-[#769FCD]">Snapshot · Leadership dashboard</p>
-              <div className="mt-6 grid gap-4 text-sm text-slate-900 md:grid-cols-2">
-                <div className="rounded-xl border border-[#B9D7EA] bg-[#F7FBFC] p-4">
-                  <p className="text-xs text-slate-500">Monthly revenue</p>
-                  <p className="mt-2 text-2xl font-semibold text-slate-900">$182k</p>
-                  <p className="text-xs text-[#769FCD]">▲ 12% vs last month</p>
-                </div>
-                <div className="rounded-xl border border-[#B9D7EA] bg-[#F7FBFC] p-4">
-                  <p className="text-xs text-slate-500">Average conversion</p>
-                  <p className="mt-2 text-2xl font-semibold text-slate-900">34%</p>
-                  <p className="text-xs text-[#769FCD]">Hot spots: AUS · UK · CAN</p>
-                </div>
-                <div className="rounded-xl border border-[#B9D7EA] bg-[#F7FBFC] p-4">
-                  <p className="text-xs text-slate-500">Visa approvals</p>
-                  <p className="mt-2 text-2xl font-semibold text-slate-900">95%</p>
-                  <p className="text-xs text-slate-600">Median turnaround 16 days</p>
-                </div>
-                <div className="rounded-xl border border-[#B9D7EA] bg-[#F7FBFC] p-4">
-                  <p className="text-xs text-slate-500">Counselor capacity</p>
-                  <p className="mt-2 text-2xl font-semibold text-slate-900">78%</p>
-                  <p className="text-xs text-slate-600">Load balanced across teams</p>
-                </div>
-              </div>
-            </div>
+            <div />
           </div>
         </section>
 
@@ -474,6 +485,21 @@ const HomePage = () => {
 }
 
 export default HomePage
+const agencyFeatures = [
+  'Registration and profile creation for admission and visa teams.',
+  'Lead and document management with shared notes and approvals.',
+  'Event management for fairs, webinars, and campus visits.',
+  'Multichannel notifications and in-app messaging with students.',
+  'University partnership tracker with agreement reminders.',
+]
+
+const mentorFeatures = [
+  'Mentor onboarding with profile, expertise, and meeting availability.',
+  'Student matching from agency teams with shared case context.',
+  'Meeting scheduling, agendas, and notes in one place.',
+  'In-app messaging and resources to keep students on track.',
+]
+
 const pricingPlans = [
   {
     name: 'Starter',
