@@ -116,6 +116,9 @@ export default function SignUpPage() {
                             value={form.password}
                             onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
                         />
+                        <p className="text-xs text-center text-black/50">
+                            Already have an account? <Link href="/signin" className="underline">Sign In</Link>
+                        </p>
                     </div>
 
                     <div className="mt-auto space-y-3">
