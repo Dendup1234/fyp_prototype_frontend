@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  nextapp:
+    build: .
+    container_name: nextjs-app
+    ports:
+      - "3000:3000"   # host:container
+    volumes:
+      - .:/app        # so code changes on host reflect in container
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
