@@ -24,11 +24,11 @@ export default function SignUpPage() {
 
 
     return (
-        <div className="container mx-auto grid w-full max-w-6xl grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="container mx-auto grid w-full max-w-6xl grid-cols-1 gap-6 md:min-h-[620px] md:grid-cols-2 md:items-stretch">
             {/* Left panel (illustration/promo) */}
             <Card
                 bg="#769FCD"
-                className="hidden md:block p-8 flex flex-col justify-between"
+                className="hidden h-full md:flex flex-col justify-between p-8"
             >
                 <div className="space-y-6">
                     {/* mock screenshots */}
@@ -61,7 +61,6 @@ export default function SignUpPage() {
             <AuthCard
                 title="Sign up"
                 subtitle="Please enter your details"
-                // Background can be changed
                 bg="#ffffff"
                 footer={
                     <p className="text-center text-black">
@@ -70,6 +69,7 @@ export default function SignUpPage() {
                         <Link href="#" className="underline">Privacy Policy</Link>.
                     </p>
                 }
+                className="h-full"
             >
                 <form
                     onSubmit={async (e) => {
@@ -77,7 +77,6 @@ export default function SignUpPage() {
                         try {
                             const res = await sendOTP(form.email);     // backend sends OTP
                             alert(res.message);
-                            // Save what you need for the verify call (TEMPORARY)
                             sessionStorage.setItem(
                                 "pendingSignup",
                                 JSON.stringify({
@@ -87,58 +86,58 @@ export default function SignUpPage() {
                                     password: form.password,
                                 })
                             );
-
-                            // You may pass only email via query for UI text (safe-ish)
                             router.push(`/verification?email=${encodeURIComponent(form.email)}`);
                         } catch (err) {
                             alert((err as Error).message);
                         }
                     }}
-                    className="space-y-4"
+                    className="flex h-full flex-col gap-6"
                 >
-                    <Input
-                        placeholder="Organization Name"
-                        value={form.org}
-                        onChange={(e) => setForm((f) => ({ ...f, org: e.target.value }))}
-                    />
-                    <Input
-                        placeholder="Name"
-                        value={form.name}
-                        onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                    />
-                    <Input
-                        type="email"
-                        placeholder="Email"
-                        value={form.email}
-                        onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                    />
-                    <PasswordInput
-                        placeholder="Password"
-                        hint="At least 8 characters"
-                        value={form.password}
-                        onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-                    />
+                    <div className="space-y-4">
+                        <Input
+                            placeholder="Organization Name"
+                            value={form.org}
+                            onChange={(e) => setForm((f) => ({ ...f, org: e.target.value }))}
+                        />
+                        <Input
+                            placeholder="Name"
+                            value={form.name}
+                            onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                        />
+                        <Input
+                            type="email"
+                            placeholder="Email"
+                            value={form.email}
+                            onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                        />
+                        <PasswordInput
+                            placeholder="Password"
+                            hint="At least 8 characters"
+                            value={form.password}
+                            onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
+                        />
+                    </div>
 
-                    <Divider />
+                    <div className="mt-auto space-y-3">
+                        <Divider />
+                        <button
+                            type="button"
+                            className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm hover:bg-black/5"
+                        >
+                            <span className="inline-flex items-center gap-2">
+                                <Image
+                                    src="/icons/google.png"
+                                    alt="Google icon"
+                                    width={20}
+                                    height={20}
+                                    className="object-contain"
+                                />
+                                <p className="text-black">Continue with Google</p>
+                            </span>
+                        </button>
 
-                    {/* Continue with Google (static) */}
-                    <button
-                        type="button"
-                        className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm hover:bg-black/5"
-                    >
-                        <span className="inline-flex items-center gap-2">
-                            <Image
-                                src="/icons/google.png"
-                                alt="Google icon"
-                                width={20}
-                                height={20}
-                                className="object-contain"
-                            />
-                            <p className="text-black">Continue with Google</p>
-                        </span>
-                    </button>
-
-                    <Button type="submit" className="mt-2">SIGN UP</Button>
+                        <Button type="submit" className="mt-2">SIGN UP</Button>
+                    </div>
                 </form>
             </AuthCard>
         </div>
