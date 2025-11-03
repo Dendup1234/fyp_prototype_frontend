@@ -1,5 +1,5 @@
 "use client";
-
+//Fixed git issues
 import { useEffect, useMemo, useState } from "react";
 import AuthCard from "@/components/authcard";
 import PasswordInput from "@/components/ui/passwordinput";
