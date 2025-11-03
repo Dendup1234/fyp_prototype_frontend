@@ -11,6 +11,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { sendOTP } from "@/utils/api";
+import { startGoogleAuth } from "@/utils/api";
 
 
 export default function SignUpPage() {
@@ -126,6 +127,7 @@ export default function SignUpPage() {
                         <button
                             type="button"
                             className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm hover:bg-black/5"
+                            onClick={startGoogleAuth}
                         >
                             <span className="inline-flex items-center gap-2">
                                 <Image

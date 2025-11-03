@@ -10,7 +10,8 @@ import Divider from "@/components/ui/divider";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { login } from "@/utils/api";  // 👈 import
+import { login } from "@/utils/api";  //
+import { startGoogleAuth } from "@/utils/api";
 
 export default function SignInPage() {
     const [form, setForm] = useState({ email: "", password: "" });
@@ -117,6 +118,7 @@ export default function SignInPage() {
                         <button
                             type="button"
                             className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm hover:bg-black/5"
+                            onClick={startGoogleAuth}
                         >
                             <span className="inline-flex items-center gap-2">
                                 <Image src="/icons/google.png" alt="Google icon" width={20} height={20} className="object-contain" />

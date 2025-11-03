@@ -1,4 +1,4 @@
-const BASE_URL = "http://10.2.32.157:5000/api/v1/agency"; // replace with your backend IP
+const BASE_URL = "http://192.168.58.1:5000/api/v1/agency"; // replace with your backend IP
 
 //Send OTP
 export const sendOTP = async (email) => {
@@ -99,3 +99,31 @@ export async function setNewPassword(payload) {
   if (!res.ok) throw new Error(data?.message || `Failed (${res.status})`);
   return data;
 }
+
+// Google OAuth - redirect to Google login
+export const startGoogleAuth = () => {
+  window.location.href = `${BASE_URL}/auth/google`;
+};
+
+// Get current logged-in Google user
+export const getCurrentUser = async () => {
+  const res = await fetch(`${BASE_URL}/me`, {
+    method: "GET",
+    credentials: "include", // 🔹 important for session cookie
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Failed to fetch user");
+  return data;
+};
+
+// Logout (destroy session)
+export const logoutUser = async () => {
+  const res = await fetch(`${BASE_URL}/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Logout failed");
+  return data;
+};
