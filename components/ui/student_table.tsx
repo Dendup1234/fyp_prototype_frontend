@@ -44,8 +44,8 @@ export type Column<T> = {
 type StudentTableProps = {
     rows: StudentRow[];
     columns: Column<StudentRow>[];
-    onViewStatus?: (row: StudentRow) => void;
     onEdit?: (row: StudentRow) => void;
+    onViewStatus?: (row: StudentRow) => void;
     /** show the Action column or not */
     showActions?: boolean;
 };

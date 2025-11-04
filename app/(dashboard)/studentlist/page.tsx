@@ -1,7 +1,7 @@
 'use client'
+
 import Navbar from '@/components/ui/navbar'
 import React, { useState } from 'react'
-import DashboardPage from '../dashboard/page'
 import DashboardSearch from '@/components/ui/dashboard-search'
 import StudentTable, {
     StudentRow,
@@ -9,6 +9,7 @@ import StudentTable, {
     ApplicationStatus
 } from "@/components/ui/student_table";
 import Button from '@/components/ui/button'
+import { useRouter } from 'next/navigation'   // ✅ use this in app router
 
 const initialStudents: StudentRow[] = [
     {
@@ -41,9 +42,9 @@ const initialStudents: StudentRow[] = [
 ];
 
 const StudentList = () => {
+    const router = useRouter();                     // ✅ get router here
     const [students, setStudents] = useState<StudentRow[]>(initialStudents);
-    // 👇 define columns in the parent — add/remove here anytime
-    // helper can live here or in a utils file
+
     const statusColor: Record<ApplicationStatus, string> = {
         "View Status": "#769FCD",
         Approved: "#2FB154",
@@ -51,6 +52,12 @@ const StudentList = () => {
         Rejected: "#FF6464",
         "Under Review": "#1F61C1",
     };
+
+    const handleViewStatus = (row: StudentRow) => {
+        // ✅ navigate to /students/01 etc.
+        router.push(`/studentlist/${row.id}`);
+    };
+
     const columns: Column<StudentRow>[] = [
         { key: "id", header: "ID" },
         { key: "name", header: "Name" },
@@ -65,9 +72,10 @@ const StudentList = () => {
         {
             key: "applicationStatus",
             header: "Application Status",
+            // ✅ call handleViewStatus here, not alert
             render: (row) => (
                 <button
-                    onClick={() => alert(`View status for ${row.name}`)}
+                    onClick={() => handleViewStatus(row)}
                     className="text-[12px] font-medium underline"
                     style={{ color: statusColor[row.applicationStatus] }}
                 >
@@ -82,23 +90,22 @@ const StudentList = () => {
             <main className="flex flex-1 flex-col bg-[#E6EAEB]">
                 <Navbar userName="Pradeep Pokhrel" initials="PP" />
                 <section className="flex flex-1 flex-col gap-8 bg-[#F7FBFC] p-6">
-                    <DashboardSearch>
-
-                    </DashboardSearch>
+                    <DashboardSearch />
                     <StudentTable
                         rows={students}
                         columns={columns}
                         showActions={true}
                         onEdit={(row) => alert(`Edit ${row.name}`)}
+                        // you can keep this too if your table calls it
+                        onViewStatus={handleViewStatus}
                     />
-                    <Button type="submit" className="mt-2">View All</Button>
-
-
-
+                    <Button type="submit" className="mt-2">
+                        View All
+                    </Button>
                 </section>
-
             </main>
         </div>
-    )
-}
-export default StudentList
+    );
+};
+
+export default StudentList;

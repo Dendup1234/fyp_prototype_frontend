@@ -1,5 +1,6 @@
 import React from "react";
 import SideMenu from '@/components/ui/sidemenu'
+import Navbar from "@/components/ui/navbar";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
     return (

@@ -14,7 +14,7 @@ export type MenuItem = {
 
 const defaultMenuItems: MenuItem[] = [
   {
-    label: "dashboard",
+    label: "Dashboard",
     iconType: "svg",
     icon: "/icons/sidebar/dashboard.svg",
     href: "/dashboard",
@@ -115,8 +115,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ items = defaultMenuItems }) => {
               key={item.label}
               href={item.href}
               className={`flex h-11 items-center gap-4 rounded-[10px] px-4 text-left text-base font-normal transition-colors ${active
-                  ? "bg-slate-100 text-slate-800"
-                  : "text-slate-500 hover:bg-slate-100 hover:text-slate-700"
+                ? "bg-slate-100 text-slate-800"
+                : "text-slate-500 hover:bg-slate-100 hover:text-slate-700"
                 }`}
               aria-current={active ? "page" : undefined}
             >
