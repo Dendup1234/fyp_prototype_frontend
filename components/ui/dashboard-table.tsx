@@ -336,12 +336,38 @@ const statusStyles: Record<VisaStatus, { bg: string; dot: string; text: string }
 
 type DashboardTableProps = {
   activeTab: number
+  query?: string
 }
 
-const DashboardTable: React.FC<DashboardTableProps> = ({ activeTab }) => {
+const DashboardTable: React.FC<DashboardTableProps> = ({ activeTab, query = '' }) => {
   const isPendingView = activeTab === 1
   const isAcceptedView = activeTab === 2
   const isRejectedView = activeTab === 3
+
+  // normalize query
+  const q = query.trim().toLowerCase()
+
+  // helper to match common fields
+  const matchesQuery = (item: {
+    name: string
+    course: string
+    university: string
+    country: string
+  }) => {
+    if (!q) return true
+    return (
+      item.name.toLowerCase().includes(q) ||
+      item.course.toLowerCase().includes(q) ||
+      item.university.toLowerCase().includes(q) ||
+      item.country.toLowerCase().includes(q)
+    )
+  }
+
+  // filtered datasets
+  const filteredDefault = defaultRows.filter(matchesQuery)
+  const filteredPending = pendingRows.filter(matchesQuery)
+  const filteredAccepted = acceptedRows.filter(matchesQuery)
+  const filteredRejected = rejectedRows.filter(matchesQuery)
 
   return (
     <div className="w-full overflow-hidden rounded-3xl bg-white shadow-sm">
@@ -372,7 +398,7 @@ const DashboardTable: React.FC<DashboardTableProps> = ({ activeTab }) => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#F1F3F5]">
-                {pendingRows.map((row) => {
+                {filteredPending.map((row) => {
                   const style = statusStyles[row.status]
                   return (
                     <tr key={`${row.id}-${row.name}`} className="h-[62px]">
@@ -426,7 +452,7 @@ const DashboardTable: React.FC<DashboardTableProps> = ({ activeTab }) => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#F1F3F5]">
-                {acceptedRows.map((row) => {
+                {filteredAccepted.map((row) => {
                   const style = statusStyles[row.status]
                   return (
                     <tr key={`${row.id}-${row.name}`} className="h-[62px]">
@@ -480,7 +506,7 @@ const DashboardTable: React.FC<DashboardTableProps> = ({ activeTab }) => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#F1F3F5]">
-                {rejectedRows.map((row) => {
+                {filteredRejected.map((row) => {
                   const style = statusStyles[row.status]
                   return (
                     <tr key={`${row.id}-${row.name}`} className="h-[62px]">
@@ -528,7 +554,7 @@ const DashboardTable: React.FC<DashboardTableProps> = ({ activeTab }) => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#F1F3F5]">
-                {defaultRows.map((row) => {
+                {filteredDefault.map((row) => {
                   const style = statusStyles[row.status]
                   return (
                     <tr key={row.name} className="h-[62px]">

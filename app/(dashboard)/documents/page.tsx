@@ -5,12 +5,13 @@ import DataTable, { Column } from "@/components/ui/data_table";
 import Tabs from "@/components/ui/tab";
 import DashboardSearch from "@/components/ui/dashboard-search";
 import { useRouter } from "next/navigation";
+import Navbar from "@/components/ui/navbar";
 
 type DocumentStatus = "Verified" | "Under Review" | "Approved" | "Rejected";
 
 type DocumentRow = {
-    id: string;          // document id
-    studentId: string;   // 👈 so we can route to that student's document
+    id: string;
+    studentId: string;
     date: string;
     name: string;
     document: string;
@@ -18,7 +19,10 @@ type DocumentRow = {
     status: DocumentStatus;
 };
 
-const statusStyles: Record<DocumentStatus, { bg: string; dot: string; text: string }> = {
+const statusStyles: Record<
+    DocumentStatus,
+    { bg: string; dot: string; text: string }
+> = {
     Verified: {
         bg: "#D1F8D5",
         dot: "#2FB154",
@@ -176,7 +180,6 @@ export default function DocumentDashboardPage() {
             },
         },
         {
-            // 👇 use a unique key name so we don't clash with "id"
             key: "actions" as keyof DocumentRow,
             header: "Action",
             render: (row) => (
@@ -191,23 +194,30 @@ export default function DocumentDashboardPage() {
     ];
 
     return (
-        <div className="min-h-screen bg-[#F7FBFC] p-6 space-y-5">
-            {/* Tabs */}
-            <Tabs tabs={tabs} active={activeTab} onChange={setActiveTab} />
+        <div className="flex min-h-screen bg-[#F7FBFC]">
+            {/* main area, same as your dashboard style */}
+            <main className="flex flex-1 flex-col bg-[#E6EAEB]">
+                {/* navbar full width on top */}
+                <Navbar userName="Pradeep Pokhrel" initials="PP" />
 
-            {/* Search + Filter */}
-            <div className="flex items-center justify-between gap-4">
-                {/* you already had this component */}
-                <DashboardSearch
-                />
-            </div>
+                {/* content area */}
+                <section className="flex flex-1 flex-col gap-6 bg-[#F7FBFC] p-6">
+                    {/* Tabs */}
+                    <Tabs tabs={tabs} active={activeTab} onChange={setActiveTab} />
 
-            {/* Table */}
-            <DataTable<DocumentRow>
-                rows={filteredRows}
-                columns={columns}
-                showActions={false}
-            />
+                    {/* Search */}
+                    <div className="flex items-center justify-between gap-4">
+                        <DashboardSearch onSearch={(val: string) => setQuery(val)} />
+                    </div>
+
+                    {/* Table */}
+                    <DataTable<DocumentRow>
+                        rows={filteredRows}
+                        columns={columns}
+                        showActions={false}
+                    />
+                </section>
+            </main>
         </div>
     );
 }

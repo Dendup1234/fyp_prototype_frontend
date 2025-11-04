@@ -1,69 +1,70 @@
-'use client'
+"use client";
 
-import Navbar from '@/components/ui/navbar'
-import React, { useState } from 'react'
-import DashboardSearch from '@/components/ui/dashboard-search'
+import Navbar from "@/components/ui/navbar";
+import React, { useState } from "react";
+import DashboardSearch from "@/components/ui/dashboard-search";
 import StudentTable, {
     StudentRow,
     Column,
     ApplicationStatus,
-} from '@/components/ui/student_table'
-import Button from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
+} from "@/components/ui/student_table";
+import Button from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const initialStudents: StudentRow[] = [
     {
-        id: '01',
-        name: 'Nyingye Meto',
-        course: 'Bachelor of Science',
-        university: 'SAE University College',
-        country: 'Australia',
-        completionDate: '10/08/25',
-        applicationStatus: 'View Status',
+        id: "01",
+        name: "Nyingye Meto",
+        course: "Bachelor of Science",
+        university: "SAE University College",
+        country: "Australia",
+        completionDate: "10/08/25",
+        applicationStatus: "View Status",
     },
     {
-        id: '02',
-        name: 'Pema Cheki',
-        course: 'Bachelor of Arts',
-        university: 'Murdoch College',
-        country: 'Australia',
-        completionDate: '10/11/25',
-        applicationStatus: 'Under Review',
+        id: "02",
+        name: "Pema Cheki",
+        course: "Bachelor of Arts",
+        university: "Murdoch College",
+        country: "Australia",
+        completionDate: "10/11/25",
+        applicationStatus: "Under Review",
     },
     {
-        id: '04',
-        name: 'Dendup Tshering',
-        course: 'Bachelor of Arts',
-        university: 'Murdoch College',
-        country: 'Australia',
-        completionDate: '10/11/25',
-        applicationStatus: 'Under Review',
+        id: "04",
+        name: "Dendup Tshering",
+        course: "Bachelor of Arts",
+        university: "Murdoch College",
+        country: "Australia",
+        completionDate: "10/11/25",
+        applicationStatus: "Under Review",
     },
-]
+];
 
 export default function StudentList() {
-    const router = useRouter()
-    const [students, setStudents] = useState<StudentRow[]>(initialStudents)
+    const router = useRouter();
+    const [students] = useState<StudentRow[]>(initialStudents);
+
+    // 👇 add this
+    const [query, setQuery] = useState("");
 
     const statusColor: Record<ApplicationStatus, string> = {
-        'View Status': '#769FCD',
-        Approved: '#2FB154',
-        Pending: '#F2C122',
-        Rejected: '#FF6464',
-        'Under Review': '#1F61C1',
-    }
+        "View Status": "#769FCD",
+        Approved: "#2FB154",
+        Pending: "#F2C122",
+        Rejected: "#FF6464",
+        "Under Review": "#1F61C1",
+    };
 
-    // go to application/status page
     const handleViewStatus = (row: StudentRow) => {
-        router.push(`/studentlist/${row.id}`)
-    }
+        router.push(`/studentlist/${row.id}`);
+    };
 
     const columns: Column<StudentRow>[] = [
-        { key: 'id', header: 'ID' },
+        { key: "id", header: "ID" },
         {
-            key: 'name',
-            header: 'Name',
-            // 👇 when you click the name, go to profile
+            key: "name",
+            header: "Name",
             render: (row) => (
                 <button
                     onClick={() => router.push(`/studentlist/${row.id}/profile`)}
@@ -73,17 +74,17 @@ export default function StudentList() {
                 </button>
             ),
         },
-        { key: 'course', header: 'Course' },
-        { key: 'university', header: 'University' },
-        { key: 'country', header: 'Country' },
+        { key: "course", header: "Course" },
+        { key: "university", header: "University" },
+        { key: "country", header: "Country" },
         {
-            key: 'completionDate',
-            header: 'Completion Date',
-            className: 'whitespace-nowrap',
+            key: "completionDate",
+            header: "Completion Date",
+            className: "whitespace-nowrap",
         },
         {
-            key: 'applicationStatus',
-            header: 'Application Status',
+            key: "applicationStatus",
+            header: "Application Status",
             render: (row) => (
                 <button
                     onClick={() => handleViewStatus(row)}
@@ -94,25 +95,41 @@ export default function StudentList() {
                 </button>
             ),
         },
-    ]
+    ];
+
+    // 👇 filter students by search query
+    const filteredStudents = students.filter((s) => {
+        if (!query) return true;
+        const q = query.toLowerCase();
+        return (
+            s.name.toLowerCase().includes(q) ||
+            s.course.toLowerCase().includes(q) ||
+            s.university.toLowerCase().includes(q) ||
+            s.country.toLowerCase().includes(q)
+        );
+    });
 
     return (
         <div className="flex min-h-screen bg-[#F7FBFC]">
             <main className="flex flex-1 flex-col bg-[#E6EAEB]">
                 <Navbar userName="Pradeep Pokhrel" initials="PP" />
+
                 <section className="flex flex-1 flex-col gap-8 bg-[#F7FBFC] p-6">
-                    <DashboardSearch />
+                    {/* now this will actually set the query */}
+                    <DashboardSearch onSearch={(val: string) => setQuery(val)} />
+
                     <StudentTable
-                        rows={students}
+                        rows={filteredStudents}
                         columns={columns}
                         showActions={true}
                         onEdit={(row) => alert(`Edit ${row.name}`)}
                     />
+
                     <Button type="submit" className="mt-2">
                         View All
                     </Button>
                 </section>
             </main>
         </div>
-    )
+    );
 }

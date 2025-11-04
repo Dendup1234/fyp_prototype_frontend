@@ -1,4 +1,4 @@
-const BASE_URL = "http://10.2.23.110:5000/api/v1/agency"; // replace with your backend IP
+const BASE_URL = "http://10.2.32.238:5000/api/v1/agency"; // replace with your backend IP
 
 //Send OTP
 export const sendOTP = async (email) => {
