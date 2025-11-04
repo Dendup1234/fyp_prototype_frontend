@@ -1,7 +1,6 @@
-// components/SideMenu.tsx
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -10,7 +9,7 @@ export type MenuItem = {
   label: string;
   iconType: "material" | "svg";
   icon: string;
-  href: string;          // <-- add this
+  href: string;
 };
 
 const defaultMenuItems: MenuItem[] = [
@@ -39,50 +38,60 @@ const iconColor = {
   inactive: "#B9D7EA",
 };
 
-const renderIcon = (item: MenuItem, isActive: boolean) => {
-  const color = isActive ? iconColor.active : iconColor.inactive;
-
-  if (item.iconType === "material") {
-    return (
-      <span
-        className="material-symbols-outlined text-2xl"
-        style={{ color }}
-        aria-hidden
-      >
-        {item.icon}
-      </span>
-    );
-  }
-
-  return (
-    <span
-      aria-hidden
-      className="block h-6 w-6"
-      style={{
-        backgroundColor: color,
-        maskImage: `url(${item.icon})`,
-        WebkitMaskImage: `url(${item.icon})`,
-        maskRepeat: "no-repeat",
-        WebkitMaskRepeat: "no-repeat",
-        maskPosition: "center",
-        WebkitMaskPosition: "center",
-        maskSize: "contain",
-        WebkitMaskSize: "contain",
-      }}
-    />
-  );
-};
-
 type SideMenuProps = {
   items?: MenuItem[];
 };
 
 const SideMenu: React.FC<SideMenuProps> = ({ items = defaultMenuItems }) => {
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
+
+  // make icons render only on the client to avoid SSR/client mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const isItemActive = (href: string) => {
-    // exact match or section match; tweak to your routing
     return pathname === href || (href !== "/" && pathname?.startsWith(href));
+  };
+
+  const renderIcon = (item: MenuItem, isActive: boolean) => {
+    const color = isActive ? iconColor.active : iconColor.inactive;
+
+    // while not mounted (SSR), render a neutral box so server + client match
+    if (!mounted) {
+      return <span aria-hidden className="block h-6 w-6 rounded-md bg-slate-200" />;
+    }
+
+    if (item.iconType === "material") {
+      return (
+        <span
+          className="material-symbols-outlined text-2xl"
+          style={{ color }}
+          aria-hidden
+        >
+          {item.icon}
+        </span>
+      );
+    }
+
+    return (
+      <span
+        aria-hidden
+        className="block h-6 w-6"
+        style={{
+          backgroundColor: color,
+          maskImage: `url(${item.icon})`,
+          WebkitMaskImage: `url(${item.icon})`,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+      />
+    );
   };
 
   return (
@@ -96,7 +105,6 @@ const SideMenu: React.FC<SideMenuProps> = ({ items = defaultMenuItems }) => {
           className="h-9 w-auto object-contain"
           priority
         />
-
       </Link>
 
       <nav className="flex flex-col gap-3" aria-label="Sidebar">
@@ -107,8 +115,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ items = defaultMenuItems }) => {
               key={item.label}
               href={item.href}
               className={`flex h-11 items-center gap-4 rounded-[10px] px-4 text-left text-base font-normal transition-colors ${active
-                ? "bg-slate-100 text-slate-800"
-                : "text-slate-500 hover:bg-slate-100 hover:text-slate-700"
+                  ? "bg-slate-100 text-slate-800"
+                  : "text-slate-500 hover:bg-slate-100 hover:text-slate-700"
                 }`}
               aria-current={active ? "page" : undefined}
             >
