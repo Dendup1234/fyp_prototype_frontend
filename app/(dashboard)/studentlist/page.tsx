@@ -6,73 +6,84 @@ import DashboardSearch from '@/components/ui/dashboard-search'
 import StudentTable, {
     StudentRow,
     Column,
-    ApplicationStatus
-} from "@/components/ui/student_table";
+    ApplicationStatus,
+} from '@/components/ui/student_table'
 import Button from '@/components/ui/button'
-import { useRouter } from 'next/navigation'   // ✅ use this in app router
+import { useRouter } from 'next/navigation'
 
 const initialStudents: StudentRow[] = [
     {
-        id: "01",
-        name: "Nyingye Meto",
-        course: "Bachelor of Science",
-        university: "SAE University College",
-        country: "Australia",
-        completionDate: "10/08/25",
-        applicationStatus: "View Status",
+        id: '01',
+        name: 'Nyingye Meto',
+        course: 'Bachelor of Science',
+        university: 'SAE University College',
+        country: 'Australia',
+        completionDate: '10/08/25',
+        applicationStatus: 'View Status',
     },
     {
-        id: "02",
-        name: "Pema Cheki",
-        course: "Bachelor of Arts",
-        university: "Murdoch College",
-        country: "Australia",
-        completionDate: "10/11/25",
-        applicationStatus: "Under Review",
+        id: '02',
+        name: 'Pema Cheki',
+        course: 'Bachelor of Arts',
+        university: 'Murdoch College',
+        country: 'Australia',
+        completionDate: '10/11/25',
+        applicationStatus: 'Under Review',
     },
     {
-        id: "04",
-        name: "Pema Cheki",
-        course: "Bachelor of Arts",
-        university: "Murdoch College",
-        country: "Australia",
-        completionDate: "10/11/25",
-        applicationStatus: "Under Review",
+        id: '04',
+        name: 'Dendup Tshering',
+        course: 'Bachelor of Arts',
+        university: 'Murdoch College',
+        country: 'Australia',
+        completionDate: '10/11/25',
+        applicationStatus: 'Under Review',
     },
-];
+]
 
-const StudentList = () => {
-    const router = useRouter();                     // ✅ get router here
-    const [students, setStudents] = useState<StudentRow[]>(initialStudents);
+export default function StudentList() {
+    const router = useRouter()
+    const [students, setStudents] = useState<StudentRow[]>(initialStudents)
 
     const statusColor: Record<ApplicationStatus, string> = {
-        "View Status": "#769FCD",
-        Approved: "#2FB154",
-        Pending: "#F2C122",
-        Rejected: "#FF6464",
-        "Under Review": "#1F61C1",
-    };
+        'View Status': '#769FCD',
+        Approved: '#2FB154',
+        Pending: '#F2C122',
+        Rejected: '#FF6464',
+        'Under Review': '#1F61C1',
+    }
 
+    // go to application/status page
     const handleViewStatus = (row: StudentRow) => {
-        // ✅ navigate to /students/01 etc.
-        router.push(`/studentlist/${row.id}`);
-    };
+        router.push(`/studentlist/${row.id}`)
+    }
 
     const columns: Column<StudentRow>[] = [
-        { key: "id", header: "ID" },
-        { key: "name", header: "Name" },
-        { key: "course", header: "Course" },
-        { key: "university", header: "University" },
-        { key: "country", header: "Country" },
+        { key: 'id', header: 'ID' },
         {
-            key: "completionDate",
-            header: "Completion Date",
-            className: "whitespace-nowrap",
+            key: 'name',
+            header: 'Name',
+            // 👇 when you click the name, go to profile
+            render: (row) => (
+                <button
+                    onClick={() => router.push(`/studentlist/${row.id}/profile`)}
+                    className="text-[#2F2F2F] hover:underline"
+                >
+                    {row.name}
+                </button>
+            ),
+        },
+        { key: 'course', header: 'Course' },
+        { key: 'university', header: 'University' },
+        { key: 'country', header: 'Country' },
+        {
+            key: 'completionDate',
+            header: 'Completion Date',
+            className: 'whitespace-nowrap',
         },
         {
-            key: "applicationStatus",
-            header: "Application Status",
-            // ✅ call handleViewStatus here, not alert
+            key: 'applicationStatus',
+            header: 'Application Status',
             render: (row) => (
                 <button
                     onClick={() => handleViewStatus(row)}
@@ -83,7 +94,7 @@ const StudentList = () => {
                 </button>
             ),
         },
-    ];
+    ]
 
     return (
         <div className="flex min-h-screen bg-[#F7FBFC]">
@@ -96,8 +107,6 @@ const StudentList = () => {
                         columns={columns}
                         showActions={true}
                         onEdit={(row) => alert(`Edit ${row.name}`)}
-                        // you can keep this too if your table calls it
-                        onViewStatus={handleViewStatus}
                     />
                     <Button type="submit" className="mt-2">
                         View All
@@ -105,7 +114,5 @@ const StudentList = () => {
                 </section>
             </main>
         </div>
-    );
-};
-
-export default StudentList;
+    )
+}

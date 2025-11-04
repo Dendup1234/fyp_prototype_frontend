@@ -1,4 +1,5 @@
 // app/students/[id]/page.tsx
+'use client'
 import { notFound } from "next/navigation";
 import StudentTable, {
     StudentRow,
@@ -6,6 +7,7 @@ import StudentTable, {
 } from "@/components/ui/student_table"; // 👈 import your component
 import Navbar from "@/components/ui/navbar";
 import BreadcrumbHeader from "@/components/ui/breadcrumb-header";
+import { use } from "react";
 
 const STUDENTS: StudentRow[] = [
     {
@@ -28,7 +30,7 @@ const STUDENTS: StudentRow[] = [
     },
     {
         id: "04",
-        name: "Pema Cheki",
+        name: "Dendup Tshering",
         course: "Bachelor of Arts",
         university: "Murdoch College",
         country: "Australia",
@@ -53,8 +55,14 @@ type PageProps = {
     };
 };
 
-export default function StudentDetailPage({ params }: PageProps) {
-    const student = STUDENTS.find((s) => s.id === params.id);
+export default function StudentDetailPage({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}) {
+    const { id } = use(params);             // ✅ unwrap in client component
+
+    const student = STUDENTS.find((s) => s.id === id);
     if (!student) {
         notFound();
     }

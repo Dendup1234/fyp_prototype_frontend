@@ -4,11 +4,13 @@ import React, { useState } from "react";
 import DataTable, { Column } from "@/components/ui/data_table";
 import Tabs from "@/components/ui/tab";
 import DashboardSearch from "@/components/ui/dashboard-search";
+import { useRouter } from "next/navigation";
 
 type DocumentStatus = "Verified" | "Under Review" | "Approved" | "Rejected";
 
 type DocumentRow = {
-    id: string;
+    id: string;          // document id
+    studentId: string;   // 👈 so we can route to that student's document
     date: string;
     name: string;
     document: string;
@@ -42,6 +44,7 @@ const statusStyles: Record<DocumentStatus, { bg: string; dot: string; text: stri
 const visaDocs: DocumentRow[] = [
     {
         id: "00",
+        studentId: "01",
         date: "10/08/25",
         name: "Sonam Seldon",
         document: "Visa Application Form",
@@ -50,6 +53,7 @@ const visaDocs: DocumentRow[] = [
     },
     {
         id: "02",
+        studentId: "02",
         date: "03/11/25",
         name: "Pema Cheki",
         document: "Payment Receipt",
@@ -58,6 +62,7 @@ const visaDocs: DocumentRow[] = [
     },
     {
         id: "04",
+        studentId: "03",
         date: "12/03/25",
         name: "Dendup Tshering",
         document: "Biometrics Proof",
@@ -66,6 +71,7 @@ const visaDocs: DocumentRow[] = [
     },
     {
         id: "07",
+        studentId: "04",
         date: "12/03/25",
         name: "Karma Tshering",
         document: "Police Clearance Certificate",
@@ -74,6 +80,7 @@ const visaDocs: DocumentRow[] = [
     },
     {
         id: "34",
+        studentId: "05",
         date: "12/03/25",
         name: "Dendup Dorji",
         document: "Police Clearance Certificate",
@@ -85,6 +92,7 @@ const visaDocs: DocumentRow[] = [
 const personalDocs: DocumentRow[] = [
     {
         id: "11",
+        studentId: "01",
         date: "08/01/25",
         name: "Sonam Tshering",
         document: "Passport Copy",
@@ -96,6 +104,7 @@ const personalDocs: DocumentRow[] = [
 const loaDocs: DocumentRow[] = [
     {
         id: "21",
+        studentId: "02",
         date: "09/01/25",
         name: "Nyingye Meto",
         document: "Offer Letter",
@@ -104,9 +113,20 @@ const loaDocs: DocumentRow[] = [
     },
 ];
 
-const otherDocs: DocumentRow[] = [];
+const otherDocs: DocumentRow[] = [
+    {
+        id: "36",
+        studentId: "03",
+        date: "12/03/25",
+        name: "Dendup Dorji",
+        document: "Medical Exam Report",
+        file: "MedExamReport.pdf",
+        status: "Verified",
+    },
+];
 
 export default function DocumentDashboardPage() {
+    const router = useRouter();
     const [activeTab, setActiveTab] = useState(0);
     const [query, setQuery] = useState("");
 
@@ -156,10 +176,14 @@ export default function DocumentDashboardPage() {
             },
         },
         {
-            key: "id",
+            // 👇 use a unique key name so we don't clash with "id"
+            key: "actions" as keyof DocumentRow,
             header: "Action",
             render: (row) => (
-                <button className="text-[12px] font-medium text-[#7B7B7B] underline">
+                <button
+                    onClick={() => router.push(`/documents/${row.studentId}/${row.id}`)}
+                    className="text-[12px] font-medium text-[#7B7B7B] underline"
+                >
                     View Document
                 </button>
             ),
@@ -173,8 +197,9 @@ export default function DocumentDashboardPage() {
 
             {/* Search + Filter */}
             <div className="flex items-center justify-between gap-4">
-                <DashboardSearch />
-
+                {/* you already had this component */}
+                <DashboardSearch
+                />
             </div>
 
             {/* Table */}

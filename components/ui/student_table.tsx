@@ -1,61 +1,45 @@
-// components/StudentTable.tsx
-import React from "react";
+// components/ui/student_table.tsx
+'use client'
+import React from 'react'
 
 export type ApplicationStatus =
-    | "View Status"
-    | "Approved"
-    | "Pending"
-    | "Rejected"
-    | "Under Review";
+    | 'View Status'
+    | 'Approved'
+    | 'Pending'
+    | 'Rejected'
+    | 'Under Review'
 
 export type StudentRow = {
-    id: string;
-    name: string;
-    course: string;
-    university: string;
-    country: string;
-    completionDate: string;
-    applicationStatus: ApplicationStatus;
-    // you can add more fields in your data (email, phone, agency, etc.)
-};
+    id: string
+    name: string
+    course: string
+    university: string
+    country: string
+    completionDate: string
+    applicationStatus: ApplicationStatus
+}
 
-const statusColor: Record<ApplicationStatus, string> = {
-    "View Status": "#769FCD",
-    Approved: "#2FB154",
-    Pending: "#F2C122",
-    Rejected: "#FF6464",
-    "Under Review": "#1F61C1",
-};
-
-// column config type
 export type Column<T> = {
-    /** key in the row object, e.g. "name" */
-    key: keyof T;
-    /** header label to show */
-    header: string;
-    /** optional custom renderer for this cell */
-    render?: (row: T) => React.ReactNode;
-    /** optional className for <td>/<th> */
-    className?: string;
-    /** optional width */
-    width?: string | number;
-};
+    key: keyof T
+    header: string
+    render?: (row: T) => React.ReactNode
+    className?: string
+    width?: string | number
+}
 
 type StudentTableProps = {
-    rows: StudentRow[];
-    columns: Column<StudentRow>[];
-    onEdit?: (row: StudentRow) => void;
-    onViewStatus?: (row: StudentRow) => void;
-    /** show the Action column or not */
-    showActions?: boolean;
-};
+    rows: StudentRow[]
+    columns: Column<StudentRow>[]
+    showActions?: boolean
+    onEdit?: (row: StudentRow) => void
+    onViewStatus?: (row: StudentRow) => void
+}
 
 const StudentTable: React.FC<StudentTableProps> = ({
     rows,
     columns,
-    onViewStatus,
+    showActions = false,
     onEdit,
-    showActions = true,
 }) => {
     return (
         <div className="w-full overflow-hidden rounded-3xl bg-white shadow-sm">
@@ -63,10 +47,10 @@ const StudentTable: React.FC<StudentTableProps> = ({
                 <table className="w-full table-auto text-left text-[12px] text-[#2F2F2F]">
                     <thead className="border-b border-[#E4E7EC] bg-[#F8FAFC] text-[#A1A7B0]">
                         <tr className="h-12">
-                            {columns.map((col) => (
+                            {columns.map((col, index) => (
                                 <th
-                                    key={col.header}
-                                    className={`px-6 ${col.className ?? ""}`}
+                                    key={`header-${String(col.key)}-${index}`}
+                                    className={`px-6 ${col.className ?? ''}`}
                                     style={col.width ? { width: col.width } : {}}
                                 >
                                     {col.header}
@@ -76,14 +60,16 @@ const StudentTable: React.FC<StudentTableProps> = ({
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-[#F1F3F5]">
-                        {rows.map((row) => (
+                        {rows.map((row, rowIndex) => (
                             <tr key={row.id} className="h-[60px]">
-                                {columns.map((col) => (
-                                    <td key={String(col.key)} className={`px-6 ${col.className ?? ""}`}>
-                                        {col.render ? col.render(row) : (row[col.key] as React.ReactNode)}
+                                {columns.map((col, colIndex) => (
+                                    <td
+                                        key={`cell-${rowIndex}-${String(col.key)}-${colIndex}`}
+                                        className={`px-6 ${col.className ?? ''}`}
+                                    >
+                                        {col.render ? col.render(row) : (row as any)[col.key]}
                                     </td>
                                 ))}
-
                                 {showActions && (
                                     <td className="px-6">
                                         <button
@@ -97,7 +83,6 @@ const StudentTable: React.FC<StudentTableProps> = ({
                                 )}
                             </tr>
                         ))}
-
                         {rows.length === 0 && (
                             <tr>
                                 <td
@@ -112,7 +97,7 @@ const StudentTable: React.FC<StudentTableProps> = ({
                 </table>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default StudentTable;
+export default StudentTable
