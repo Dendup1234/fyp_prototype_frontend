@@ -15,9 +15,9 @@ export type MenuItem = {
 
 const defaultMenuItems: MenuItem[] = [
   {
-    label: "Dashboard",
-    iconType: "material",
-    icon: "dashboard",
+    label: "dashboard",
+    iconType: "svg",
+    icon: "/icons/sidebar/dashboard.svg",
     href: "/dashboard",
   },
   {
@@ -96,7 +96,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ items = defaultMenuItems }) => {
           className="h-9 w-auto object-contain"
           priority
         />
-        
+
       </Link>
 
       <nav className="flex flex-col gap-3" aria-label="Sidebar">

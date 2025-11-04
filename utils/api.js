@@ -1,4 +1,4 @@
-const BASE_URL = "http://192.168.58.1:5000/api/v1/agency"; // replace with your backend IP
+const BASE_URL = "http://10.2.23.110:5000/api/v1/agency"; // replace with your backend IP
 
 //Send OTP
 export const sendOTP = async (email) => {
@@ -105,11 +105,12 @@ export const startGoogleAuth = () => {
   window.location.href = `${BASE_URL}/auth/google`;
 };
 
-// Get current logged-in Google user
+//Get the user from the google
+// Get current logged-in user (Google or email login)
 export const getCurrentUser = async () => {
   const res = await fetch(`${BASE_URL}/me`, {
     method: "GET",
-    credentials: "include", // 🔹 important for session cookie
+    credentials: "include", // Important: send session cookie
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.message || "Failed to fetch user");

@@ -21,11 +21,10 @@ const DashboardTabs: React.FC<DashboardTabsProps> = ({
             key={label}
             type="button"
             onClick={() => onChange(index)}
-            className={`flex items-center pb-3 text-[16px] font-normal transition-colors border-b-2 ${
-              isActive
+            className={`flex items-center pb-3 text-[16px] font-normal transition-colors border-b-2 ${isActive
                 ? 'border-[var(--primarycolor)] text-[#1F1F1F]'
                 : 'border-transparent text-[#9CA3AF] hover:border-[#D5DDE5] hover:text-[#555C6A]'
-            }`}
+              }`}
           >
             {label}
           </button>

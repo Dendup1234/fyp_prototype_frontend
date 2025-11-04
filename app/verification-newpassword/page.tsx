@@ -6,7 +6,7 @@ import Button from "@/components/ui/button";
 import OtpInput from "@/components/ui/otpinput";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const BASE_URL = "http://10.2.23.225:5000/api/v1/agency"; // adjust your backend IP
+const BASE_URL = "http://10.2.23.110:5000/api/v1/agency"; // adjust your backend IP
 
 export default function ResetVerifyPage() {
     const [otp, setOtp] = useState("");

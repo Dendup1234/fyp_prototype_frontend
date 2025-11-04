@@ -37,7 +37,7 @@ export default function SignInPage() {
             // sessionStorage.setItem("token", res.token)
 
             // Redirect anywhere you want after login:
-            router.push("/"); // e.g., dashboard/home
+            router.push("/dashboard"); // e.g., dashboard/home
         } catch (error) {
             setErr(error instanceof Error ? error.message : "Login failed");
         } finally {
